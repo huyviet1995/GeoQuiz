@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">MyApplication</string>
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+    <string name="correct_toast">Correct!</string>
+    <string name="next_button">Next</string>
+    <string name="previous_button">Previous</string>
+    <string name="incorrect_toast">Incorrect!</string>
+    <string name="menu_settings">Settings</string>
+
+    <string name="vietnam_question">Vietnam beat the US in Vietnam War.</string>
+    <string name="vietnam_question2">Throughout the war, the US people supported the US military participation in Vietnam</string>
+    <string name="vietnam_question3">The Vietnam\'s War is American\'s longest war. Lasting 9-11 years</string>
+    <string name="vietnam_question4">Vietnam is located in the South East Asia.</string>
+    <string name="vietnam_question5">The North of Vietnam surrendered the war on 1973</string>
 </resources>
