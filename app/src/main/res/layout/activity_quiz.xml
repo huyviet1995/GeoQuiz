@@ -40,6 +40,13 @@
         android:text="@string/next_button"
         android:drawableRight="@drawable/arrow_right"/>
 
+     <Button
+         android:id="@+id/previous_button"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/previous_button"
+         android:drawableLeft="@drawable/arrow_left"/>
+
 
     </LinearLayout>
 
