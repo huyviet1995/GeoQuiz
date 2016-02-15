@@ -7,6 +7,8 @@
     <string name="previous_button">Previous</string>
     <string name="incorrect_toast">Incorrect!</string>
     <string name="menu_settings">Settings</string>
+    <string name="left_button">Previous button</string>
+    <string name="right_button">Next button</string>
 
     <string name="vietnam_question">Vietnam beat the US in Vietnam War.</string>
     <string name="vietnam_question2">Throughout the war, the US people supported the US military participation in Vietnam</string>
