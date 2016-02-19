@@ -1,5 +1,7 @@
 package com.example.huyviet1995.myapplication;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,9 +13,13 @@ import android.widget.Toast;
 public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
+    private Button mCheatButton;
     private ImageButton mNextButton;
     private ImageButton mPreviousButton;
     private TextView mQuestionTextView;
+    private boolean mIsCheater;
+    static final int REQUEST_CODE_CHEAT=0;
+
 
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
@@ -50,6 +56,16 @@ public class QuizActivity extends AppCompatActivity {
         }
         Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) return;
+        if (requestCode == REQUEST_CODE_CHEAT)
+            if (data == null) return;
+        mIsCheater=CheatActivity.wasAnswerShown(data);
+    }
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +105,7 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mIsCheater = false;
                 nextQuestion();
             }
         });
@@ -99,6 +116,17 @@ public class QuizActivity extends AppCompatActivity {
                 mCurrentIndex = (mCurrentIndex - 1) % mQuestionTextView.length();
                 if (mCurrentIndex == -1) mCurrentIndex = mQuestionBank.length-1;
                 updateQuestion();
+            }
+        });
+
+        mCheatButton=(Button)findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //start cheatActivity
+                boolean answerIsTrue =mQuestionBank[mCurrentIndex].isTrueQuestion();
+                Intent i = CheatActivity.newIntent(QuizActivity.this,answerIsTrue);
+                startActivityForResult(i,REQUEST_CODE_CHEAT);
             }
         });
     }
