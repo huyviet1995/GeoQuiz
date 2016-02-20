@@ -20,6 +20,7 @@ public class QuizActivity extends AppCompatActivity {
     private TextView mQuestionTextView;
     private boolean mIsCheater;
     private final String KEY_INDEX = "INDEX";
+    private final String CHEAT_TAG = "QuizActivity";
     private final String CHEAT_RETRIEVE = "CHEAT_RETRIEVE";
 
     private final String TAG = "QuizActivity";
@@ -70,21 +71,23 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) return;
-        if (requestCode == REQUEST_CODE_CHEAT)
-            if (data == null) return;
-        mIsCheater=CheatActivity.wasAnswerShown(data);
-    }
-
-    @Override
     public void onSaveInstanceState (Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX,mCurrentIndex);
 
+
+    }
+
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) return;
+        if (requestCode == REQUEST_CODE_CHEAT)
+            if (data == null) return;
         
     }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
