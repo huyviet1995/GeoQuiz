@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,6 +19,8 @@ public class QuizActivity extends AppCompatActivity {
     private ImageButton mPreviousButton;
     private TextView mQuestionTextView;
     private boolean mIsCheater;
+    private final String KEY_INDEX = "INDEX";
+    private final String TAG = "QuizActivity";
     static final int REQUEST_CODE_CHEAT=0;
 
 
@@ -32,6 +35,9 @@ public class QuizActivity extends AppCompatActivity {
 
     private int mCurrentIndex = 0;
 
+    private void saveData (Bundle saveInstanceState) {
+
+    }
 
     private void updateQuestion(){
         int question = mQuestionBank[mCurrentIndex].getQuestion();
@@ -46,15 +52,19 @@ public class QuizActivity extends AppCompatActivity {
 
     private void checkAnswer(boolean userPressedTrue) {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
-        int messageResId  = 0;
+        int messageResId = 0;
+        if (mIsCheater) {
+            messageResId =R.string.judgement_toast;
 
-        if (userPressedTrue == answerIsTrue) {
-            messageResId = R.string.correct_toast;
-        } else
-        {
-            messageResId = R.string.incorrect_toast;
+        } else {
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
+
         }
-        Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -65,11 +75,20 @@ public class QuizActivity extends AppCompatActivity {
         mIsCheater=CheatActivity.wasAnswerShown(data);
     }
 
-
-
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onSaveInstanceState (Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG, "onSaveInstanceState");
+        savedInstanceState.putInt(KEY_INDEX,mCurrentIndex);
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_quiz);
+
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX,0);
+        }
 
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
         updateQuestion();
@@ -109,6 +128,9 @@ public class QuizActivity extends AppCompatActivity {
                 nextQuestion();
             }
         });
+        //retrieve the value of mCurrentIndex
+
+
         mPreviousButton = (ImageButton)findViewById(R.id.previous_button);
         mPreviousButton.setOnClickListener(new View.OnClickListener() {
             @Override
