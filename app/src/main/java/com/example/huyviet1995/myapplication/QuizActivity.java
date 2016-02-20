@@ -20,6 +20,8 @@ public class QuizActivity extends AppCompatActivity {
     private TextView mQuestionTextView;
     private boolean mIsCheater;
     private final String KEY_INDEX = "INDEX";
+    private final String CHEAT_RETRIEVE = "CHEAT_RETRIEVE";
+
     private final String TAG = "QuizActivity";
     static final int REQUEST_CODE_CHEAT=0;
 
@@ -80,6 +82,8 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX,mCurrentIndex);
+
+        
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
