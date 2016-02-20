@@ -74,8 +74,9 @@ public class QuizActivity extends AppCompatActivity {
     public void onSaveInstanceState (Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
-        savedInstanceState.putInt(KEY_INDEX,mCurrentIndex);
-
+        savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        //Save the boolean value of the mIsCheater
+        savedInstanceState.putBoolean(CHEAT_RETRIEVE, mIsCheater);
 
     }
 
@@ -84,7 +85,7 @@ public class QuizActivity extends AppCompatActivity {
         if (resultCode != Activity.RESULT_OK) return;
         if (requestCode == REQUEST_CODE_CHEAT)
             if (data == null) return;
-        
+        mIsCheater=CheatActivity.wasAnswerShown(data);
     }
 
 
