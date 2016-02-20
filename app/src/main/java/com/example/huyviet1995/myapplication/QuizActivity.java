@@ -20,12 +20,10 @@ public class QuizActivity extends AppCompatActivity {
     private TextView mQuestionTextView;
     private boolean mIsCheater;
     private final String KEY_INDEX = "INDEX";
-    private final String CHEAT_TAG = "QuizActivity";
     private final String CHEAT_RETRIEVE = "CHEAT_RETRIEVE";
 
     private final String TAG = "QuizActivity";
     static final int REQUEST_CODE_CHEAT=0;
-
 
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
@@ -37,10 +35,6 @@ public class QuizActivity extends AppCompatActivity {
     };
 
     private int mCurrentIndex = 0;
-
-    private void saveData (Bundle saveInstanceState) {
-
-    }
 
     private void updateQuestion(){
         int question = mQuestionBank[mCurrentIndex].getQuestion();
@@ -74,9 +68,8 @@ public class QuizActivity extends AppCompatActivity {
     public void onSaveInstanceState (Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
+        //save the current value of mCurrentIndex
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
-        //Save the boolean value of the mIsCheater
-        savedInstanceState.putBoolean(CHEAT_RETRIEVE, mIsCheater);
 
     }
 
@@ -85,6 +78,7 @@ public class QuizActivity extends AppCompatActivity {
         if (resultCode != Activity.RESULT_OK) return;
         if (requestCode == REQUEST_CODE_CHEAT)
             if (data == null) return;
+
         mIsCheater=CheatActivity.wasAnswerShown(data);
     }
 
@@ -113,7 +107,7 @@ public class QuizActivity extends AppCompatActivity {
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //does nothing yet, but soon
+
                 checkAnswer(true);
             }
         });
