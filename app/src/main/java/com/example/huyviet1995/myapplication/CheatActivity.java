@@ -20,6 +20,9 @@ public class CheatActivity extends Activity{
     private boolean mAnswerIsTrue;
     private TextView mAnswerTextView;
     private Button mShowAnswer;
+    public static final String CHEAT_RETRIEVE = "com.example.huyviet1995.myApplication.cheat_retrieve";
+    //check whether user has cheated
+    private boolean isCheated;
 
     public CheatActivity() {
     }
@@ -33,24 +36,38 @@ public class CheatActivity extends Activity{
     private void setAnswerShownResult(boolean isAnswerShown) {
         Intent data = new Intent();
         data.putExtra(EXTRA_ANSWER_SHOW, isAnswerShown);
-        setResult(RESULT_OK,data);
+        setResult(RESULT_OK, data);
+        //save the value of isAnswerShown to isCheated
+        isCheated = isAnswerShown;
     }
 
     public static boolean wasAnswerShown(Intent result) {
         return result.getBooleanExtra(EXTRA_ANSWER_SHOW,false);
     }
-
-    protected void onCreate (Bundle savedInstanceState) {
+    @Override
+    public void onSaveInstanceState (Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean(CHEAT_RETRIEVE,isCheated);
+    }
+    @Override
+    protected void onCreate (final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
+        /*if the activity is destroyed (when user rotates screen), the value of isCheated
+        * is still saved and returned back*/
+        if (savedInstanceState!=null) {
+            isCheated = savedInstanceState.getBoolean(CHEAT_RETRIEVE);
+            setAnswerShownResult(isCheated);
+        }
         mAnswerIsTrue=getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE,false);
-
         mAnswerTextView=(TextView)findViewById(R.id.answer_text_view);
         mShowAnswer =(Button)findViewById(R.id.show_answer_button);
         mShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (mAnswerIsTrue) {
+
                     mAnswerTextView.setText(R.string.true_button);
 
                 } else {
@@ -58,6 +75,7 @@ public class CheatActivity extends Activity{
                 }
                 setAnswerShownResult(true);
             }
+
         });
     }
 }

@@ -26,11 +26,11 @@ public class QuizActivity extends AppCompatActivity {
 
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
-        new TrueFalse(R.string.vietnam_question,false),
-        new TrueFalse(R.string.vietnam_question2,false),
-        new TrueFalse(R.string.vietnam_question3,true),
-        new TrueFalse(R.string.vietnam_question4,true),
-        new TrueFalse(R.string.vietnam_question5,false)
+            new TrueFalse(R.string.vietnam_question,false),
+            new TrueFalse(R.string.vietnam_question2,false),
+            new TrueFalse(R.string.vietnam_question3,true),
+            new TrueFalse(R.string.vietnam_question4,true),
+            new TrueFalse(R.string.vietnam_question5,false)
     };
 
     /*Create an array mCheatingBank that holds the value of mIsCheater
@@ -73,9 +73,7 @@ public class QuizActivity extends AppCompatActivity {
         Log.i(TAG, "onSaveInstanceState");
         //save the current value of mCurrentIndex after the activity is destroyed
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
-        /*Save the boolean value of the whole array of mIsCheater (mCheatingBank)
-        inside the savedInstanceState so that activity is not
-        destroyed when screen is rotated*/
+        /*save the value of mCheatingBank array in savedInstanceState*/
         savedInstanceState.putBooleanArray(CHEAT_RETRIEVE,mCheatingBank);
     }
 
@@ -99,7 +97,7 @@ public class QuizActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             //retrieve the value of the index when activity is restored after being destroyed
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX,0);
-            //get the value of mIsCheater back
+            //get the value of mCheatingBank back
             mCheatingBank= savedInstanceState.getBooleanArray(CHEAT_RETRIEVE);
         }
 
