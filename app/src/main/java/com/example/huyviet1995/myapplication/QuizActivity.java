@@ -22,7 +22,7 @@ public class QuizActivity extends AppCompatActivity {
     private final String TAG = "QuizActivity";
     static final int REQUEST_CODE_CHEAT=0;
     //Create a string to store value of mIsCheater(or mCheatingBank[mCurrentIndex]
-
+    private final String CHEAT_RETRIEVE = "CHEAT_RETRIEVE";
 
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
@@ -35,7 +35,7 @@ public class QuizActivity extends AppCompatActivity {
 
     /*Create an array mCheatingBank that holds the value of mIsCheater
     so that when user press Next to return to the current question, mIsCheater is still saved*/
-
+    private boolean[] mCheatingBank = new boolean[mQuestionBank.length];
 
     private int mCurrentIndex = 0;
 
@@ -72,10 +72,11 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         //save the current value of mCurrentIndex after the activity is destroyed
-
-        /*Save the boolean value of the mIsCheater inside the savedInstanceState
-        so that activity is not destroyed when screen is rotated*/
-
+        savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        /*Save the boolean value of the whole array of mIsCheater (mCheatingBank)
+        inside the savedInstanceState so that activity is not
+        destroyed when screen is rotated*/
+        savedInstanceState.putBooleanArray(CHEAT_RETRIEVE,mCheatingBank);
     }
 
     @Override
@@ -86,7 +87,7 @@ public class QuizActivity extends AppCompatActivity {
         /*save the the value of wasAnswerShown to mIsCheater in onSaveInstanceState
         so that when user rotate it when they get back, mIsCheater (mCheatingBank[mCurrentIndex])
         is not clearer out */
-
+        mCheatingBank[mCurrentIndex]=CheatActivity.wasAnswerShown(data);
     }
 
 
@@ -97,9 +98,9 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             //retrieve the value of the index when activity is restored after being destroyed
-
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX,0);
             //get the value of mIsCheater back
-            
+            mCheatingBank= savedInstanceState.getBooleanArray(CHEAT_RETRIEVE);
         }
 
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
