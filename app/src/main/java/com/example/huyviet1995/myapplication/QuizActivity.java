@@ -18,13 +18,12 @@ public class QuizActivity extends AppCompatActivity {
     private ImageButton mNextButton;
     private ImageButton mPreviousButton;
     private TextView mQuestionTextView;
-    //mIsCheater is replaced by mCheatinBank[mCurrentIndex]
-    //private boolean mIsCheater;
     private final String KEY_INDEX = "INDEX";
     private final String TAG = "QuizActivity";
     static final int REQUEST_CODE_CHEAT=0;
-    //Create a string to store value of mIsCheater
-    private final String CHEAT_RETRIEVE = "CHEAT_RETRIEVE";
+    //Create a string to store value of mIsCheater(or mCheatingBank[mCurrentIndex]
+
+
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
         new TrueFalse(R.string.vietnam_question,false),
@@ -34,9 +33,9 @@ public class QuizActivity extends AppCompatActivity {
         new TrueFalse(R.string.vietnam_question5,false)
     };
 
-    /*Create an array mCheatingBank that holds the current value of mCurrentIndex
+    /*Create an array mCheatingBank that holds the value of mIsCheater
     so that when user press Next to return to the current question, mIsCheater is still saved*/
-    private boolean[] mCheatingBank = new boolean[mQuestionBank.length];
+
 
     private int mCurrentIndex = 0;
 
@@ -72,11 +71,11 @@ public class QuizActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
-        //save the current value of mCurrentIndex
-        savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        //save the current value of mCurrentIndex after the activity is destroyed
+
         /*Save the boolean value of the mIsCheater inside the savedInstanceState
         so that activity is not destroyed when screen is rotated*/
-        savedInstanceState.putBoolean(CHEAT_RETRIEVE, mCheatingBank[mCurrentIndex]);
+
     }
 
     @Override
@@ -85,9 +84,9 @@ public class QuizActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_CHEAT)
             if (data == null) return;
         /*save the the value of wasAnswerShown to mIsCheater in onSaveInstanceState
-        so that when user rotate it when they get back, mIsCheater (mCheatinBank[mCurrentIndex])
+        so that when user rotate it when they get back, mIsCheater (mCheatingBank[mCurrentIndex])
         is not clearer out */
-        mCheatingBank[mCurrentIndex]=CheatActivity.wasAnswerShown(data);
+
     }
 
 
@@ -97,9 +96,10 @@ public class QuizActivity extends AppCompatActivity {
         this.setContentView(R.layout.activity_quiz);
 
         if (savedInstanceState != null) {
-            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX,0);
+            //retrieve the value of the index when activity is restored after being destroyed
+
             //get the value of mIsCheater back
-            mCheatingBank[mCurrentIndex] = savedInstanceState.getBoolean(CHEAT_RETRIEVE,false);
+            
         }
 
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
@@ -138,8 +138,6 @@ public class QuizActivity extends AppCompatActivity {
                 nextQuestion();
             }
         });
-        //retrieve the value of mCurrentIndex
-
 
         mPreviousButton = (ImageButton)findViewById(R.id.previous_button);
         mPreviousButton.setOnClickListener(new View.OnClickListener() {
