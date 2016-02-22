@@ -22,7 +22,7 @@ public class QuizActivity extends AppCompatActivity {
     private final String TAG = "QuizActivity";
     static final int REQUEST_CODE_CHEAT=0;
     //Create a string to store value of mIsCheater(or mCheatingBank[mCurrentIndex]
-
+    private final String CHEAT_RETRIEVE = "CHEAT_RETRIEVE";
 
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
@@ -35,7 +35,7 @@ public class QuizActivity extends AppCompatActivity {
 
     /*Challenge 3:Create an array mCheatingBank that holds the value of mIsCheater
     so that when user press Next to return to the current question, mIsCheater is still saved*/
-
+    private boolean[] mCheatingBank = new boolean[mQuestionBank.length];
 
     private int mCurrentIndex = 0;
 
@@ -54,10 +54,15 @@ public class QuizActivity extends AppCompatActivity {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
         int messageResId = 0;
         /*use the value of mCheatingBank[mCurrentIndex]*/
-        if (userPressedTrue == answerIsTrue) {
-            messageResId = R.string.correct_toast;
+        if (mCheatingBank[mCurrentIndex]) {
+            messageResId =R.string.judgement_toast;
+
         } else {
-            messageResId = R.string.incorrect_toast;
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
         }
 
 
@@ -72,7 +77,7 @@ public class QuizActivity extends AppCompatActivity {
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
         /*Challenge 2: save the value of mIsCheater before the user destroys the activity by rotating the screen*/
         /*Challenge 3: save the value of mIsCheater corresponded with mCurrentIndex inside an mCheatingBank*/
-
+        savedInstanceState.putBooleanArray(CHEAT_RETRIEVE,mCheatingBank);
     }
 
     @Override
@@ -82,7 +87,7 @@ public class QuizActivity extends AppCompatActivity {
             if (data == null) return;
         /*Challenge 2: save the value of wasAnswerShown to mIsCheater*/
         /*Challenge 3: save the value of wasAnswerShown to mCheatingBank[mCurrentIndex] */
-
+        mCheatingBank[mCurrentIndex]=CheatActivity.wasAnswerShown(data);
     }
 
 
@@ -95,7 +100,7 @@ public class QuizActivity extends AppCompatActivity {
             //retrieve the value of the index when activity is restored after being destroyed
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX,0);
             /*Challenge2+3:get the value of mCheatingBank array back*/
-
+            mCheatingBank= savedInstanceState.getBooleanArray(CHEAT_RETRIEVE);
         }
 
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
