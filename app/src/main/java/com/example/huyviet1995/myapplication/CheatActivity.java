@@ -37,8 +37,8 @@ public class CheatActivity extends Activity{
         Intent data = new Intent();
         data.putExtra(EXTRA_ANSWER_SHOW, isAnswerShown);
         setResult(RESULT_OK, data);
-        //save the value of isAnswerShown to isCheated
-        isCheated = isAnswerShown;
+        /*Challenge 1: save the value of isAnswerShown to isCheated*/
+
     }
 
     public static boolean wasAnswerShown(Intent result) {
@@ -47,18 +47,15 @@ public class CheatActivity extends Activity{
     @Override
     public void onSaveInstanceState (Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean(CHEAT_RETRIEVE,isCheated);
+        /*Challenge 1: Save the value of isCheated before activity is destroyed when user rotate the screen*/
+
     }
     @Override
     protected void onCreate (final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
-        /*if the activity is destroyed (when user rotates screen), the value of isCheated
-        * is still saved and returned back*/
-        if (savedInstanceState!=null) {
-            isCheated = savedInstanceState.getBoolean(CHEAT_RETRIEVE);
-            setAnswerShownResult(isCheated);
-        }
+        /*Challenge 1: Return the value of isCheated back when the activity is restored*/
+
         mAnswerIsTrue=getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE,false);
         mAnswerTextView=(TextView)findViewById(R.id.answer_text_view);
         mShowAnswer =(Button)findViewById(R.id.show_answer_button);
