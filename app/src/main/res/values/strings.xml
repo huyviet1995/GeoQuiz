@@ -12,7 +12,7 @@
     <string name="cheat_button">Cheat!</string>
     <string name="warning_text">Are you sure you want to do this ?</string>
     <string name="show_answer_button">Show Answer</string>
-    <string name="judgement_toast">Cheating is necessary!</string>
+    <string name="judgement_toast">Cheating is very wrong!</string>
     <string name="title_activity_cheat">Cheat Activity !</string>
 
     <string name="vietnam_question">Vietnam beat the US in Vietnam War.</string>
